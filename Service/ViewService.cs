@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DriversLicense.Calendar;
+using System;
 
-namespace DriversLicense
+namespace DriversLicense.Service
 {
     public class ViewService : IViewService
     {
-        public CalendarService CalendarService { get; } = new CalendarService();
         public T Show<T>() where T : BaseView, new()
         {
             T view = new T();

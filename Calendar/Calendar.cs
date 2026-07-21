@@ -1,7 +1,8 @@
-﻿using System;
+﻿using DriversLicense.Service;
+using System;
 using System.Collections.Generic;
 
-namespace DriversLicense
+namespace DriversLicense.Calendar
 {
     public class Calendar : BaseView
     {
@@ -13,7 +14,7 @@ namespace DriversLicense
         {
             year = DateTime.Now.Year;
             month = DateTime.Now.Month;
-            freeDays = navigator.CalendarService.GetFreeDays(year, month);
+            freeDays = ServiceContainer.Instance.calendarService.GetAvailableDays(year, month);
         }
 
         public override void Show(IViewService navigator)
@@ -36,7 +37,7 @@ namespace DriversLicense
             else
             {
                 DateTime selected = freeDays[choice - 1];
-                navigator.CalendarService.Book(selected);
+                ServiceContainer.Instance.calendarService.ReserveDays(userId, selected); //-----------
                 Console.WriteLine($"Booked: {selected:dddd, MMMM d, yyyy}");
             }
 
