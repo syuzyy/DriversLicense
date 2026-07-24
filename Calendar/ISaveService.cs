@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using DriversLicense.Save;
+using System.Collections.Generic;
 
 
 namespace DriversLicense.Calendar
 {
     public interface ISaveService
     {
-        void Save(List<ReserveInfo> reservedDays);
-        List<ReserveInfo> Load();
-
-
-        //bool Serialize<T>(T obj);
-        //T Deseialize<T>();
+        bool Serialize<T>(T obj) where T : ISaveObject;
+        T Deserialize<T>(string fileName) where T : ISaveObject, new();
+        bool Delete(string fileName);
 
     }
 

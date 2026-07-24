@@ -1,11 +1,10 @@
-﻿using DriversLicense.Service;
+﻿using DriversLicense.Calendar;
+using DriversLicense.Service;
 using System;
-
 namespace DriversLicense
 {
     public class Reg : BaseView
     {
-
         public override void Show(IViewService navigator)
         {
             Console.WriteLine("Register Page (HQB)");
@@ -15,10 +14,8 @@ namespace DriversLicense
 
             string choice = Console.ReadLine();
 
-            if (choice == "1") navigator.Show<Calendar>();
+            if (choice == "1") navigator.Show<UserInformation>();
             else if (choice == "2") navigator.Show<MainView>();
         }
-
-
     }
 }

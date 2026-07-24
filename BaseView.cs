@@ -5,6 +5,12 @@ namespace DriversLicense
 {
     public class BaseView : IDisposable
     {
+        protected IViewData ViewData;
+        public virtual void SetData(IViewData data)
+        {
+            ViewData = data;
+        }
+
         public virtual void Setup(IViewService navigator)
         {
             

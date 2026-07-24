@@ -8,7 +8,7 @@ namespace DriversLicense
 {
     public class ReserveInfo
     {
-        public int UserId { get; set; }
+        public string UserName { get; set; }
         public DateTime Day { get; set; }
     }
 }

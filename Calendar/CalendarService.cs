@@ -1,27 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using DriversLicense.Save;
 
 namespace DriversLicense.Calendar
 {
     public class CalendarService : ICalendarService
     {
-        private List<ReserveInfo> reservedDays = new List<ReserveInfo>();
+        private ReservationsData data;
         private ISaveService saveService;
 
         public CalendarService(ISaveService saveService)
         {
             this.saveService = saveService;
-            reservedDays = saveService.Load();
+            data = saveService.Deserialize<ReservationsData>("reservations");
         }
 
-        public void ReserveDays(int UserId, DateTime day)
+        public void ReserveDays(string userName, DateTime day)
         {
             ReserveInfo info = new ReserveInfo();
-            info.UserId = UserId;
-            info.Day = day;
-            reservedDays.Add(info);
+            info.UserName = userName;
+            info.Day = day.Date;
+            data.Reservations.Add(info);
+            saveService.Serialize(data);
+        }
 
-            saveService.Save(reservedDays);
-
+        public bool IsFree(DateTime day)
+        {
+            foreach (ReserveInfo info in data.Reservations)
+            {
+                if (info.Day == day.Date)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public List<DateTime> GetAvailableDays(int year, int month)
@@ -32,7 +44,6 @@ namespace DriversLicense.Calendar
             for (int day = 1; day <= daysInMonth; day++)
             {
                 DateTime current = new DateTime(year, month, day);
-
                 if (IsFree(current))
                 {
                     freeDays.Add(current);
@@ -42,16 +53,11 @@ namespace DriversLicense.Calendar
             return freeDays;
         }
 
-        public bool IsFree(DateTime day)
+        public void ClearAll()
         {
-            foreach (ReserveInfo info in reservedDays)
-            {
-                if (info.Day == day.Date)
-                {
-                    return false;
-                }
-            }
-            return true;
+            saveService.Delete("reservations");
+
+            data = new ReservationsData();
         }
     }
 }

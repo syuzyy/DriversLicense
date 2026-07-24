@@ -1,4 +1,5 @@
 ﻿using DriversLicense.Calendar;
+using DriversLicense.Save;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,7 @@ namespace DriversLicense.Service
         }
         public ServiceContainer()
         {
-            saveService = new SaveService();
+            saveService = new JsonSaveService();
             calendarService = new CalendarService(saveService);
         }
     }
